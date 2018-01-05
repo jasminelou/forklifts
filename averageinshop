@@ -1,0 +1,25 @@
+import math                                 #needed functions in these two libraries
+from random import *
+
+forklift = 27                               #initial starting forklifts
+broken = 0                                  #initial broken forklifts
+days = 0                                    #time (day) counter
+count = 0                                   #a counter used for repair time
+avg = []                                    #list of forklifts in shop for every single day
+
+while days < 100000:                        #run for 100000 days (I assumed this was plenty)
+    for i in range(0, forklift):            #for every working forklift:
+        if randint(1,133) == 1:             #Monte Carlo method for breaking forklifts
+            broken += 1                     #if the Monte Carlo probability works, add one forklift to the broken counter
+            forklift -= 1                   #subtract one forklift from the working forklift counter
+    avg.append(broken)                      #note the number of broken forklifts (aka how many forklifts are in the shop)
+    if broken > 0:                          #only do the next few lines if there are actually broken forklifts
+        if count == 4:                          #after 4 days (not 3 because can't start repairs the same day it breaks (class assumption))
+            count = 0                           #the counter will reset to 0 and one forklift will be moved from the broken pile to the
+            forklift += 1                       #working pile. 
+            broken -= 1
+        count += 1
+    days += 1
+    
+average = sum(avg)/100000                   #find the sum of the list of broken forklifts per day and divide by days
+print(average)                              #print the output
